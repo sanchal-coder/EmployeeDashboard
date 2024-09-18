@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import EmployeeCard from '../components/EmployeeCard'; 
+import Loader from '../components/Loader';
 
 const EmployeeDetail = () => {
     const { Id } = useParams();
@@ -16,31 +18,34 @@ const EmployeeDetail = () => {
     const handleBack = () => {
       navigate('/');
     };
-  return (
-    <div className="employee-detail">
-    <h1>Employee Details</h1>
-    {employee ? 
-            (
-            <div className="border border-black p-2" key={employee.id}>
-                <img src={employee.image} alt="" />
-                <h3>{employee.firstName} {employee.lastName}</h3>
-                <p>Salary: ${employee.employee_salary} {employee.employee_salary}</p>
-                <p>BloodGroup: {employee.bloodGroup}</p>
-                <p>Age: {employee.age}</p>
-                <p>Designation: {employee.company.title}</p>
-                <p>Department: {employee.company.department}</p>
-                <button onClick={() => handleDelete(employee.id)}>Delete</button>
-                <button>Edit</button>
-            </div>
-        )
-     : (
-      <p>Loading employee data...</p>
-    )}
-    <button onClick={handleBack}>Back to Dashboard</button>
-  </div>
 
+    const handleDelete = (id) => {
+    
+    };
 
-  )
+    return (
+      <div className="employee-detail">
+        <h1>Employee Details</h1>
+        {employee ? (
+          <div key={employee.id}>
+            <EmployeeCard
+              image={employee.image}
+              name={`${employee.firstName} ${employee.lastName}`}
+              designation={employee.company.title}
+              department={employee.company.department}
+              bloodGroup={employee.bloodGroup}
+              age={employee.age}
+              salary={employee.employee_salary}
+            />
+            <button onClick={() => handleDelete(employee.id)}>Delete</button>
+            <button>Edit</button>
+          </div>
+        ) : (
+          <Loader />
+        )}
+        <button onClick={handleBack}>Back to Dashboard</button>
+      </div>
+    );
 }
 
-export default EmployeeDetail
+export default EmployeeDetail;
